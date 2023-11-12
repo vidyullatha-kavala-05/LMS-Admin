@@ -1,0 +1,13 @@
+create database library_management_system;
+use library_management_system;
+
+-- Admin table
+CREATE TABLE Admin (
+    admin_id INT AUTO_INCREMENT PRIMARY KEY,
+    adminEmail VARCHAR(50) NOT NULL UNIQUE,
+    adminPassword VARCHAR(50) NOT NULL,
+    adminName VARCHAR(100) NOT NULL,
+    adminPhone VARCHAR(10) NOT NULL,
+    adminAddress VARCHAR(100) NOT NULL
+);
+SELECT * FROM Admin;
