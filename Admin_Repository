@@ -1,0 +1,12 @@
+package library.management.repository;
+
+import library.management.entity.Admin;
+
+import org.springframework.data.jpa.repository.*;
+
+public interface AdminRepository extends JpaRepository<Admin, Long> {
+	
+	Admin findByAdminEmail(String adminEmail);
+    Admin findByAdminId(Long adminId);
+	
+}
