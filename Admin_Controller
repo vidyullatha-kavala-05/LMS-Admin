@@ -1,0 +1,45 @@
+package library.management.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import library.management.service.AdminService;
+import library.management.entity.Admin;
+import library.management.exception.*;
+
+@RestController
+@RequestMapping("/admin")
+public class AdminController {
+    @Autowired
+    private AdminService adminService;
+
+    @PostMapping("/register")
+    public ResponseEntity<?> registerAdmin(@RequestBody Admin admin) {
+        
+    	Admin adminAdmin = new Admin(
+                admin.getAdminPassword(),
+                admin.getAdminEmail(),
+                admin.getAdminName(),
+                admin.getAdminPhone(),
+                admin.getAdminAddress()
+            );
+    	
+    	try {
+            Admin registeredAdmin = adminService.registerAdmin(admin);
+            return ResponseEntity.ok(registeredAdmin);
+        } catch (EmailAlreadyRegisteredException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> loginAdmin(@RequestParam String adminEmail, @RequestParam String adminPassword) {
+        try {
+            Admin admin=adminService.loginAdmin(adminEmail, adminPassword);
+            return ResponseEntity.ok(admin);
+        } catch (IncorrectPasswordException e) {
+            return ResponseEntity.status(401).body(e.getMessage());
+        }
+    }
+}
